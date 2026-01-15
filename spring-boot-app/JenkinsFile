@@ -1,12 +1,5 @@
 pipeline {
- environment {
-    PATH = "/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-  }
-  agent {
-    docker {
-      image 'abhishekf5/maven-abhishek-docker-agent:v1'
-    }
-  }
+agent any
   stages {
     stage('Checkout') {
       steps {
