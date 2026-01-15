@@ -1,7 +1,7 @@
 pipeline {
  agent any
-
   stages {
+     
     stage('Build') {
       steps {
         sh '''
@@ -13,8 +13,8 @@ pipeline {
         '''
       }
     }
-  }
-  stages {
+
+
     stage('Checkout') {
       steps {
         sh 'echo passed'
