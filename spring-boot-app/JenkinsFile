@@ -24,10 +24,13 @@ pipeline {
         )]) {
           sh '''
            cd spring-boot-app
-           docker build -t ultimate-cicd:29 .
-           docker tag ultimate-cicd:29 ${DOCKER_USER}/ultimate-cicd:29
+           BUILD_NUMBER=${BUILD_NUMBER}
+         #  docker build -t ultimate-cicd:29 .
+           docker build -t nikitapatil1203/ultimate-cicd:${BUILD_NUMBER} .
+         #  docker tag ultimate-cicd:29 ${DOCKER_USER}/ultimate-cicd:29
+           docker tag ultimate-cicd:${BUILD_NUMBER} ${DOCKER_USER}/ultimate-cicd:${BUILD_NUMBER}
            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-           docker push ${DOCKER_USER}/ultimate-cicd:29         
+           docker push ${DOCKER_USER}/ultimate-cicd:${BUILD_NUMBER}         
            '''
          }
         }
