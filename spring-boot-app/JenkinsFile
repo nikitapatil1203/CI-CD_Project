@@ -17,6 +17,7 @@ pipeline {
 
 stage('Build and Push Docker Image') {
     steps {
+        DOCKER_IMAGE = "nikitapatil1203/ultimate-cicd:${BUILD_NUMBER}"
         withCredentials([usernamePassword(
         credentialsId: 'DockerCred',
         usernameVariable: 'DOCKER_USER',
@@ -24,7 +25,8 @@ stage('Build and Push Docker Image') {
         )]) {
           sh '''
            cd spring-boot-app
-           docker build -t ultimate-cicd:29 .
+          # docker build -t ultimate-cicd:29 .
+           docker build -t ${DOCKER_IMAGE} .
            docker tag ultimate-cicd:29 ${DOCKER_USER}/ultimate-cicd:29
            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
            docker push ${DOCKER_USER}/ultimate-cicd:29         
