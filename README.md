@@ -6,7 +6,8 @@ This end-to-end Jenkins pipeline will automate the entire CI/CD process for a Ja
 
 Screenshots of CICD Pipeline (Output) :
 
-<img width="3418" height="1934" alt="image" src="https://github.com/user-attachments/assets/ea46eb3f-8fde-49a9-b2df-0dbf7bafd28e" />
+<img width="1709" height="967" alt="Screenshot 2026-01-17 at 12 39 34 AM" src="https://github.com/user-attachments/assets/0e67f1cb-427f-4e8f-8195-8d5154f26815" />
+
 
 <img width="3412" height="1090" alt="image" src="https://github.com/user-attachments/assets/7969afa1-f213-455c-bfbf-0bdb10fa1da4" />
 
