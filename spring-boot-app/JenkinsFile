@@ -44,7 +44,6 @@ stage('Build and Push Docker Image') {
                     git config user.email "nikita121212patil@gmail.com"
                     git config user.name "nikitapatil1203"
                     BUILD_NUMBER=${BUILD_NUMBER}
-                    BUILD_NUMBER=57
                     sed -i '' "s|image: nikitapatil1203/ultimate-cicd:.*|image: nikitapatil1203/ultimate-cicd:${BUILD_NUMBER}|g" spring-boot-app-manifests/deployment.yml
                     git checkout -B main origin/main
                     git status                    
