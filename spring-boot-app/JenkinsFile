@@ -45,7 +45,7 @@ stage('Build and Push Docker Image') {
                     git config user.name "nikitapatil1203"
                     BUILD_NUMBER=${BUILD_NUMBER}
                     sed "s/replaceImageTag/${BUILD_NUMBER}/g" spring-boot-app-manifests/deployment.yml
-                    git checkout -b main origin/main
+                    git checkout main
                     git add spring-boot-app-manifests/deployment.yml
                     git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                     git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
