@@ -7,16 +7,16 @@ pipeline {
         //git branch: 'main', url: 'https://github.com/nikitapatil1203/CI-CD_Project.git'
       }
     }
-    stage('Build and Test') {
-      steps {
+   stage('Build and Test') {
+     steps {
         sh 'ls -ltr'
         // build the project and create a JAR file
         sh 'cd spring-boot-app && mvn clean package'
       }
     }
 
-stage('Build and Push Docker Image') {
-    steps {
+   stage('Build and Push Docker Image') {
+     steps {
         withCredentials([usernamePassword(
         credentialsId: 'DockerCred',
         usernameVariable: 'DOCKER_USER',
@@ -29,30 +29,30 @@ stage('Build and Push Docker Image') {
            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
            docker push ${DOCKER_USER}/ultimate-cicd:29         
            '''
-     }
-    }
-}
+         }
+        }
+      }
   
-         stage('Update Deployment File') {
-        environment {
-            GIT_REPO_NAME = "CI-CD_Project"
-            GIT_USER_NAME = "nikitapatil1203"
+   stage('Update Deployment File') {
+      environment {
+         GIT_REPO_NAME = "CI-CD_Project"
+         GIT_USER_NAME = "nikitapatil1203"
+      }
+      steps {
+         withCredentials([string(credentialsId: 'GitToken', variable: 'GITHUB_TOKEN')]) {
+            sh '''
+             git config user.email "nikita121212patil@gmail.com"
+             git config user.name "nikitapatil1203"
+             BUILD_NUMBER=${BUILD_NUMBER}
+             sed -i '' "s|image: nikitapatil1203/ultimate-cicd:.*|image: nikitapatil1203/ultimate-cicd:${BUILD_NUMBER}|g" spring-boot-app-manifests/deployment.yml
+             git checkout -B main origin/main
+             git status                    
+             git add spring-boot-app-manifests/deployment.yml
+             git commit -m "Update deployment image to version ${BUILD_NUMBER}"
+             git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+          '''
+         }
         }
-        steps {
-            withCredentials([string(credentialsId: 'GitToken', variable: 'GITHUB_TOKEN')]) {
-                sh '''
-                    git config user.email "nikita121212patil@gmail.com"
-                    git config user.name "nikitapatil1203"
-                    BUILD_NUMBER=${BUILD_NUMBER}
-                    sed -i '' "s|image: nikitapatil1203/ultimate-cicd:.*|image: nikitapatil1203/ultimate-cicd:${BUILD_NUMBER}|g" spring-boot-app-manifests/deployment.yml
-                    git checkout -B main origin/main
-                    git status                    
-                    git add spring-boot-app-manifests/deployment.yml
-                    git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-                   git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
-                '''
-            }
-        }
-    }
-  }
-}
+       }
+     }
+   }
